@@ -1,7 +1,8 @@
-package com.msf.bankapp.Login;
+package com.msf.bankapp.login;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.msf.bankapp.util.Error;
 
 public class LoginJson {
 

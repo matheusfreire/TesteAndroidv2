@@ -1,4 +1,4 @@
-package com.msf.bankapp.Login;
+package com.msf.bankapp.login;
 
 import android.util.Log;
 
@@ -26,12 +26,15 @@ class LoginInteractor {
             @Override
             public void onResponse(Call<LoginJson> call, Response<LoginJson> response) {
                 if(response.isSuccessful()){
-                    mListener.onDataRetrieved(response.body().getUserAccount());
+                    mListener.onDataRetrieved(response.body().getUserAccount(), false);
+                } else {
+                    mListener.onDataRetrieved(null, false);
                 }
             }
 
             @Override
             public void onFailure(Call<LoginJson> call, Throwable t) {
+                mListener.onDataRetrieved(null, true);
                 Log.d(TAG, "ERROR");
             }
         });
@@ -39,6 +42,6 @@ class LoginInteractor {
 
 
     interface LoginListener{
-        void onDataRetrieved(UserAccount userAccount);
+        void onDataRetrieved(UserAccount userAccount, boolean hasError);
     }
 }

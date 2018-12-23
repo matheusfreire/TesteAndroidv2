@@ -7,4 +7,13 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="user_or_passowrd_invalid">Usuário ou senha inválidos</string>
+    <string name="lasts">Recentes</string>
+    <string name="out">Out</string>
+    <string name="account">Conta</string>
+    <string name="balance">Saldo</string>
+    <string name="account_value">%1$s / %2$s</string>
+    <string name="an_error_has_occurred">Aconteceu algo inesperado, tente novamente mais tarde.</string>
+    <string name="value"></string>
+    <string name="bank">BANK</string>
 </resources>

@@ -1,7 +1,9 @@
-package com.msf.bankapp.Login;
+package com.msf.bankapp.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
 import com.msf.bankapp.R;
+import com.msf.bankapp.statement.StatementsActivity;
 import com.msf.bankapp.util.ScreenUtil;
 
 import butterknife.BindView;
@@ -18,6 +21,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements LoginInteractor.LoginListener{
+
+    public static final String KEY_USER = "USER_ACCOUNT";
 
     @BindView(R.id.user)
     TextInputEditText mUserEdit;
@@ -71,10 +76,14 @@ public class LoginActivity extends AppCompatActivity implements LoginInteractor.
             focusView = mUserEdit;
             cancel = true;
         }
-        showProgress(true);
-        initializeInteractor();
-        ScreenUtil.hideKeyboard(this);
-        mLoginInteractor.attemptToLogin(user, password);
+        if(cancel){
+            focusView.requestFocus();
+        } else {
+            showProgress(true);
+            initializeInteractor();
+            ScreenUtil.hideKeyboard(this);
+            mLoginInteractor.attemptToLogin(user, password);
+        }
     }
 
     private void initializeInteractor() {
@@ -110,7 +119,17 @@ public class LoginActivity extends AppCompatActivity implements LoginInteractor.
     }
 
     @Override
-    public void onDataRetrieved(UserAccount userAccount) {
-
+    public void onDataRetrieved(UserAccount userAccount, boolean hasError) {
+        showProgress(false);
+        if(hasError){
+            Snackbar.make(mLoginFormView, getString(R.string.an_error_has_occurred), Snackbar.LENGTH_LONG).show();
+        } else if(userAccount != null) {
+            Intent i = new Intent(this, StatementsActivity.class);
+            i.putExtra(KEY_USER, userAccount);
+            startActivity(i);
+            overridePendingTransition(R.anim.para_direita_sai, R.anim.para_direita_entra);
+        } else {
+            Snackbar.make(mLoginFormView, getString(R.string.user_or_passowrd_invalid), Snackbar.LENGTH_LONG).show();
+        }
     }
 }

@@ -1,9 +1,12 @@
-package com.msf.bankapp.Login;
+package com.msf.bankapp.login;
 
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UserAccount {
+public class UserAccount implements Parcelable {
     @SerializedName("userId")
     private int userId;
     @SerializedName("name")
@@ -14,6 +17,26 @@ public class UserAccount {
     private String agency;
     @SerializedName("balance")
     private double balance;
+
+    protected UserAccount(Parcel in) {
+        userId = in.readInt();
+        name = in.readString();
+        bankAccount = in.readString();
+        agency = in.readString();
+        balance = in.readDouble();
+    }
+
+    public static final Creator<UserAccount> CREATOR = new Creator<UserAccount>() {
+        @Override
+        public UserAccount createFromParcel(Parcel in) {
+            return new UserAccount(in);
+        }
+
+        @Override
+        public UserAccount[] newArray(int size) {
+            return new UserAccount[size];
+        }
+    };
 
     public int getUserId() {
         return userId;
@@ -53,5 +76,19 @@ public class UserAccount {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(userId);
+        parcel.writeString(name);
+        parcel.writeString(bankAccount);
+        parcel.writeString(agency);
+        parcel.writeDouble(balance);
     }
 }
