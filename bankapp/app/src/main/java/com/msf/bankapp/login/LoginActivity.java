@@ -3,17 +3,18 @@ package com.msf.bankapp.login;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 
 import com.msf.bankapp.R;
 import com.msf.bankapp.statement.StatementsActivity;
+import com.msf.bankapp.util.EspressoIdlingResource;
 import com.msf.bankapp.util.ScreenUtil;
 
 import butterknife.BindView;
@@ -25,10 +26,10 @@ public class LoginActivity extends AppCompatActivity implements LoginInteractor.
     public static final String KEY_USER = "USER_ACCOUNT";
 
     @BindView(R.id.user)
-    TextInputEditText mUserEdit;
+    EditText mUserEdit;
 
     @BindView(R.id.password)
-    TextInputEditText mPasswordView;
+    EditText mPasswordView;
 
     @BindView(R.id.login_form)
     View mLoginFormView;
@@ -79,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInteractor.
         if(cancel){
             focusView.requestFocus();
         } else {
+            EspressoIdlingResource.increment();
             showProgress(true);
             initializeInteractor();
             ScreenUtil.hideKeyboard(this);
@@ -132,4 +134,5 @@ public class LoginActivity extends AppCompatActivity implements LoginInteractor.
             Snackbar.make(mLoginFormView, getString(R.string.user_or_passowrd_invalid), Snackbar.LENGTH_LONG).show();
         }
     }
+
 }

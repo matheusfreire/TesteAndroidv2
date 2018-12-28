@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.msf.bankapp.R;
 import com.msf.bankapp.login.LoginActivity;
 import com.msf.bankapp.login.UserAccount;
+import com.msf.bankapp.util.EspressoIdlingResource;
 
 import java.util.List;
 
@@ -90,6 +91,12 @@ public class StatementsActivity extends AppCompatActivity implements StatementIn
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EspressoIdlingResource.decrement();
+    }
+
     private void buildRecyclerView(List<Statement> listStatement) {
         StatementAdapter statementAdapter = new StatementAdapter(listStatement);
         mRecyclerViewStatements.setAdapter(statementAdapter);
@@ -104,4 +111,5 @@ public class StatementsActivity extends AppCompatActivity implements StatementIn
     public void onClickOut(View view){
         NavUtils.navigateUpFromSameTask(this);
     }
+
 }
